@@ -113,3 +113,4 @@ version5/.gitignore
 version6/.gitignore
 .deps
 config.h
+Makefile
