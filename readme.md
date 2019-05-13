@@ -158,3 +158,14 @@ make
 sudo make install
 ```
 
+Makefile.am
+```Makefile
+AUTOMAKE_OPTIONS = foreign
+bin_PROGRAMS = version5
+version5_SOURCES = foo1.cpp foo2.cpp main.cpp
+```
+
+优点:
+
+* 上述的依赖推导自动完成,不需要自己实现.d
+* 跨平台
