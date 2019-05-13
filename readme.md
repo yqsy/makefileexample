@@ -1,13 +1,15 @@
 <!-- TOC -->
 
-- [1. 版本1](#1-版本1)
-- [2. 版本2](#2-版本2)
-- [3. 版本3](#3-版本3)
+- [1. 版本1-直接编译](#1-版本1-直接编译)
+- [2. 版本2-减少重复编译](#2-版本2-减少重复编译)
+- [3. 版本3-自动推导](#3-版本3-自动推导)
+- [4. 版本4-推导头文件依赖](#4-版本4-推导头文件依赖)
+- [5. 版本5-](#5-版本5-)
 
 <!-- /TOC -->
 
 
-# 1. 版本1
+# 1. 版本1-直接编译
 
 直接用指令编译也可以
 
@@ -28,7 +30,7 @@ clean:
 
 * 任何文件只要做了修改项目都要完整的重新编译
 
-# 2. 版本2
+# 2. 版本2-减少重复编译
 
 ```Makefile
 all: version2
@@ -53,7 +55,7 @@ clean:
 	* x.cpp => x.o 重复
 	* x.cpp 依赖的头文件 => x.o 重复
 
-# 3. 版本3
+# 3. 版本3-自动推导
 
 ```Makefile
 all: version3
@@ -68,7 +70,7 @@ CXX = g++
 # $@ xxx.o
 
 $(target): $(obj)
-	$(CXX $(obj) -o $(target) 
+	$(CXX) $(obj) -o $(target) 
 
 %.o: %.c
 	$(CXX) -c $< -o $@
@@ -82,3 +84,49 @@ clean:
 
 缺点:
 * x.cpp 依赖的头文件变化
+
+# 4. 版本4-推导头文件依赖
+
+```Makefile
+all: version4
+
+SRCS = main.cpp foo1.cpp foo2.cpp
+OBJS = ${SRCS:.cpp=.o}
+
+target = version4
+
+CXX = g++
+
+$(target): $(OBJS)
+	$(CXX) $(OBJS) -o $(target)
+
+# $< xxx.cpp
+# $@ xxx.d
+
+#sed -i '1s/^/$@ /' $@
+%.d: %.cpp
+	$(CXX) -MM $< > $@
+	
+%.o: %.cpp
+	$(CXX) -c $<  -o $@
+
+clean:
+	rm -rf version4 *.o *.d
+
+-include ${SRCS:.cpp=.d}
+```
+
+优点:
+* x.cpp 依赖的头文件变换,相应.o会重新编译
+
+解释:
+
+```Makefile
+foo1.o: foo1.cpp foo1.h
+foo2.o: foo2.cpp foo2.h
+main.o: main.cpp foo1.h foo2.h
+```
+
+* .cpp => .d依赖 => 补充(xxx.o 依赖 于 xxx.cpp xxx.h) => xxx.o => xxx
+
+# 5. 版本5-
