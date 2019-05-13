@@ -173,3 +173,22 @@ version5_SOURCES = foo1.cpp foo2.cpp main.cpp
 
 # 6. 版本6-automake static library
 
+
+静态库:
+```Makefile
+AUTOMAKE_OPTIONS = foreign
+noinst_LIBRARIES = libfoo.a
+libfoo_a_SOURCES = foo1.cpp foo2.cpp
+```
+
+动态库:
+```Makefile
+AUTOMAKE_OPTIONS = foreign
+
+SUBDIRS = libfoo
+
+bin_PROGRAMS = version6
+version6_SOURCES = main.cpp
+version6_LDADD = ./libfoo/libfoo.a
+version6_CXXFLAGS = -I./libfoo
+```
