@@ -110,4 +110,6 @@ m4/lt~obsolete.m4
 
 
 version5/.gitignore
+version6/.gitignore
 .deps
+config.h
