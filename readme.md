@@ -2,6 +2,7 @@
 
 - [1. 版本1](#1-版本1)
 - [2. 版本2](#2-版本2)
+- [3. 版本3](#3-版本3)
 
 <!-- /TOC -->
 
@@ -50,4 +51,34 @@ clean:
 缺点:
 * 内容重复
 	* x.cpp => x.o 重复
-	* x.cpp 依赖的h => x.o 重复
+	* x.cpp 依赖的头文件 => x.o 重复
+
+# 3. 版本3
+
+```Makefile
+all: version3
+
+obj = main.o foo1.o foo2.o
+
+target = version3
+
+CXX = g++
+
+# $< xxx.c
+# $@ xxx.o
+
+$(target): $(obj)
+	$(CXX $(obj) -o $(target) 
+
+%.o: %.c
+	$(CXX) -c $< -o $@
+
+clean:
+	rm -rf version3 *.o
+```
+
+优点:
+* x.cpp => x.o 重复 的问题解决了
+
+缺点:
+* x.cpp 依赖的头文件变化
