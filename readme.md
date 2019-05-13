@@ -4,7 +4,7 @@
 - [2. 版本2-减少重复编译](#2-版本2-减少重复编译)
 - [3. 版本3-自动推导](#3-版本3-自动推导)
 - [4. 版本4-推导头文件依赖](#4-版本4-推导头文件依赖)
-- [5. 版本5-](#5-版本5-)
+- [5. 版本5-automake](#5-版本5-automake)
 
 <!-- /TOC -->
 
@@ -129,4 +129,28 @@ main.o: main.cpp foo1.h foo2.h
 
 * .cpp => .d依赖 => 补充(xxx.o 依赖 于 xxx.cpp xxx.h) => xxx.o => xxx
 
-# 5. 版本5-
+# 5. 版本5-automake
+
+* https://i.stack.imgur.com/kuFHy.gif (依赖图)
+* https://www.gitignore.io/api/c++ (忽视文件)
+* https://www.gitignore.io/api/autotools (忽视文件)
+
+```bash
+autoscan .
+mv configure.scan configure.ac
+# #AC_CONFIG_SRCDIR([config.h]) 注释这个
+# AM_INIT_AUTOMAKE 增加这个
+aclocal
+autoconf
+autoheader
+automake --add-missing
+
+./configure
+make
+sudo make install
+```
+
+等于:
+```bash
+
+```
