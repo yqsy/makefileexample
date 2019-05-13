@@ -152,5 +152,9 @@ sudo make install
 
 等于:
 ```bash
-
+autoreconf --install
+./configure
+make
+sudo make install
 ```
+
