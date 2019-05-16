@@ -139,7 +139,6 @@ main.o: main.cpp foo1.h foo2.h
 ```bash
 autoscan .
 mv configure.scan configure.ac
-# #AC_CONFIG_SRCDIR([config.h]) 注释这个
 # AM_INIT_AUTOMAKE 增加这个
 aclocal
 autoconf
